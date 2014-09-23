@@ -208,7 +208,6 @@ if(MIC_NATIVE_FOUND)
 
 endif()#}}}
 
-
 # Install libVc(_MIC) and headers#{{{
 ##################################################################
 install(TARGETS Vc DESTINATION lib${LIB_SUFFIX})
