@@ -259,10 +259,12 @@ using std::vector;
 using std::tuple;
 using std::get;
 
+
 // value_type_or_T {{{1
 template <class T> typename T::value_type value_type_or_T_impl(int);
 template <class T> T value_type_or_T_impl(float);
 template <class T> using value_type_or_T = decltype(value_type_or_T_impl<T>(int()));
+
 
 // printPass {{{1
 static inline void printPass()
@@ -280,6 +282,7 @@ static inline void printPass()
     std::cout << str;
 }
 static inline void printSkip() { std::cout << Vc::detail::color::yellow << " SKIP: " << Vc::detail::color::normal; }
+
 
 // verify_vector_unit_supported {{{1
 #ifndef NO_ISA_CHECK
@@ -299,15 +302,17 @@ struct verify_vector_unit_supported
 }  // unnamed namespace
 #endif  // NO_ISA_CHECK
 
+
 class UnitTestFailure //{{{1
 {
 };
+
 
 struct SkippedTest //{{{1
 {
     std::string message;
 };
-
+ 
 using TestFunction = void (*)(void); //{{{1
 
 class UnitTester  //{{{1
@@ -377,8 +382,8 @@ template <> double &UnitTester::fuzzyness<double>() { return double_fuzzyness; }
 static UnitTester global_unit_test_object_;
 
 void EXPECT_FAILURE() { global_unit_test_object_.expect_failure = true; }
-
-static const char *failString()  // {{{1
+ 
+st atic const char *failString()  // {{{1
 {
     if (global_unit_test_object_.expect_failure) {
         return "XFAIL: ";
@@ -416,13 +421,13 @@ void initTest(int argc, char **argv)  //{{{1
             global_unit_test_object_.vim_lines = true;
         }
     }
-}
+} 
 // setFuzzyness {{{1
 template <typename T> static inline void setFuzzyness(T fuzz)
 {
     global_unit_test_object_.fuzzyness<T>() = fuzz;
 }
-
+ 
 void UnitTester::runTestInt(TestFunction fun, const char *name)  //{{{1
 {
     if (global_unit_test_object_.only_name &&
@@ -496,7 +501,7 @@ void UnitTester::runTestInt(TestFunction fun, const char *name)  //{{{1
         }
     }
 }
-
+ 
 // unittest_compareHelper {{{1
 template <typename T1, typename T2>
 Vc_ALWAYS_INLINE bool unittest_compareHelper(const T1 &a, const T2 &b)
@@ -511,7 +516,7 @@ Vc_ALWAYS_INLINE bool unittest_compareHelper<std::type_info, std::type_info>(
 {
     return &a == &b;
 }
-
+ 
 // ulpDiffToReferenceWrapper {{{1
 namespace detail
 {
@@ -540,7 +545,7 @@ T ulpDiffToReferenceWrapper(const T a, const T b, float)
     return diff;
 }
 }  // namespace detail
-
+ 
 // unittest_fuzzyCompareHelper {{{1
 template <typename T>
 static inline bool unittest_fuzzyCompareHelper(const T &a, const T &b, std::true_type)
@@ -591,7 +596,7 @@ class Compare  //{{{1
     }
 
 public:
-    // tag types {{{2
+     // tag types {{{2
     struct Fuzzy {};
     struct NoEq {};
     struct AbsoluteError {};
@@ -669,8 +674,8 @@ public:
         : Compare(a, b, _a, _b, _file, _line, Mem())
     {
     }
-
-    // Mem Compare ctor {{{2
+ 
+     // Mem Compare ctor {{{2
     template <typename T1, typename T2>
     Vc_ALWAYS_INLINE Compare(const T1 &valueA,
                              const T2 &valueB,
@@ -730,7 +735,7 @@ public:
             print(')');
         }
     }
-
+ 
     // Fuzzy Compare ctor {{{2
     template <typename T>
     Vc_ALWAYS_INLINE Compare(const T &a, const T &b, const char *_a, const char *_b,
@@ -760,7 +765,7 @@ public:
             writePlotData(global_unit_test_object_.plotFile, a, b);
         }
     }
-
+ 
     // Absolute Error Compare ctor {{{2
     template <typename T, typename ET>
     Vc_ALWAYS_INLINE Compare(const T &a,
@@ -802,8 +807,8 @@ public:
             print(" ulp");
         }
     }
-
-    // Relative Error Compare ctor {{{2
+ 
+     // Relative Error Compare ctor {{{2
     template <typename T, typename ET>
     Vc_ALWAYS_INLINE Compare(const T &a,
                                     const T &b,
@@ -863,15 +868,15 @@ public:
             print(cond);
         }
     }
-
+ 
     // FAIL ctor {{{2
     Vc_ALWAYS_INLINE Compare(const char *_file, int _line) : m_ip(getIp()), m_failed(true)
     {
         printFirst();
         printPosition(_file, _line);
     }
-
-    // stream operators {{{2
+ 
+    // strea m operators {{{2
     template <typename T> Vc_ALWAYS_INLINE const Compare &operator<<(const T &x) const
     {
         if (Vc_IS_UNLIKELY(m_failed)) {
@@ -916,7 +921,7 @@ public:
         }
     }
 
-    // }}}2
+    // }}}2 
 private:
     static Vc_ALWAYS_INLINE size_t getIp()  //{{{2
     {
