@@ -40,7 +40,7 @@ static constexpr std::size_t maxSupportedAlignment =
 #ifdef Vc_MSVC
     32
 #else
-    128
+    CurrentImplementation::is(NeonImpl) ? 64 : 128
 #endif
     ;
 
