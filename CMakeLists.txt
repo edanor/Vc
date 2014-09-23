@@ -205,7 +205,9 @@ if(MIC_NATIVE_FOUND)
       COMPILE_FLAGS ${libvc_mic_compile_flags})
    add_target_property(Vc_MIC LABELS "MIC")
    add_dependencies(MIC Vc_MIC)
+
 endif()#}}}
+
 
 # Install libVc(_MIC) and headers#{{{
 ##################################################################
@@ -220,6 +222,7 @@ install(DIRECTORY include/Vc/ DESTINATION include/Vc)
 
 # private headers
 install(DIRECTORY common datapar traits DESTINATION include/Vc FILES_MATCHING REGEX "/*.(h|tcc|def)$")#}}}
+
 
 # Generate & install cmake config#{{{
 ##################################################################
@@ -259,6 +262,7 @@ configure_file(${CMAKE_SOURCE_DIR}/scripts/CTestCustom.cmake ${CMAKE_BINARY_DIR}
 if(BUILD_TESTING)
    add_custom_target(build_tests ALL VERBATIM)
    add_subdirectory(tests)
+
 endif(BUILD_TESTING)#}}}
 
 # Examples#{{{
@@ -266,6 +270,7 @@ endif(BUILD_TESTING)#}}}
 set(BUILD_EXAMPLES FALSE CACHE BOOL "Build examples.")
 if(BUILD_EXAMPLES)
    add_subdirectory(examples)
+
 endif(BUILD_EXAMPLES)#}}}
 
 # Hack for caching `make help`#{{{
@@ -283,6 +288,7 @@ if(BIN_CAT)
       DEPENDS ${CMAKE_BINARY_DIR}/help.txt
       VERBATIM
       )
+
 endif()#}}}
 
 # vim: foldmethod=marker commentstring=#%s
