@@ -132,6 +132,7 @@ endif()
 
 set(_srcs src/const.cpp)
 
+
 if(Vc_X86)
    list(APPEND _srcs src/cpuid.cpp src/support_x86.cpp)
    vc_compile_for_all_implementations(_srcs src/trigonometric.cpp ONLY SSE2 SSE3 SSSE3 SSE4_1 AVX SSE+XOP+FMA4 AVX+XOP+FMA4 AVX+XOP+FMA AVX+FMA)# AVX2+FMA+BMI2)
