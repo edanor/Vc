@@ -33,7 +33,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "simdarrayhelper.h"
 #include "utility.h"
 #include "maskbool.h"
-
 #include "macros.h"
 
 namespace Vc_VERSIONED_NAMESPACE
@@ -273,6 +272,7 @@ template <typename T, std::size_t N, typename VectorType> constexpr std::size_t 
 template <typename T, std::size_t N, typename VectorType>
 constexpr std::size_t SimdMaskArray<T, N, VectorType, N>::MemoryAlignment;
 
+<<<<<<< HEAD
 // generic SimdArray {{{1
 /**
  * Data-parallel mask type with user-defined number of boolean elements.
@@ -299,6 +299,13 @@ constexpr std::size_t SimdMaskArray<T, N, VectorType, N>::MemoryAlignment;
  */
 template <typename T, size_t N, typename V, size_t Wt>
 class SimdMaskArray
+=======
+template <typename T, std::size_t N, typename VectorType, std::size_t>
+class alignas(
+    ((Common::nextPowerOfTwo(N) * (sizeof(VectorType) / VectorType::size()) - 1) &
+     (Detail::maxSupportedAlignment - 1)) +
+    1) SimdMaskArray
+>>>>>>> 8a753ec... MSVC: compiler refuses over-alignment > 32
 {
     static constexpr std::size_t N0 = Common::left_size<N>();
 
