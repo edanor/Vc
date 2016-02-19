@@ -167,7 +167,7 @@ if(Vc_X86)
    add_custom_target(AVX512 COMMENT "build AVX512 code" VERBATIM)
 elseif(Vc_ARM)
    add_custom_target(NEON COMMENT "build NEON code" VERBATIM)
-endif()#}}}
+ endif()#}}}
 
 # Build libVc#{{{
 ##################################################################
@@ -208,7 +208,7 @@ if(MIC_NATIVE_FOUND)
 
 endif()#}}}
 
-# Install libVc(_MIC) and headers#{{{
+ # Install libVc(_MIC) and headers#{{{
 ##################################################################
 install(TARGETS Vc DESTINATION lib${LIB_SUFFIX})
 if(MIC_NATIVE_FOUND)
