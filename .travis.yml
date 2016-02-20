@@ -2,6 +2,11 @@ language: cpp
 
 cache: ccache
 
+env:
+    - GCC_VERSION=5
+    - GCC_VERSION=default
+    - GCC_VERSION=arm
+
 os:
     - linux
     - osx
@@ -9,6 +14,20 @@ os:
 compiler:
     - gcc
     - clang
+
+matrix:
+    exclude:
+        - env: GCC_VERSION=arm
+          os: osx
+        - env: GCC_VERSION=5
+          os: osx
+          compiler: clang
+        - env: GCC_VERSION=5
+          os: linux
+          compiler: clang
+        - env: GCC_VERSION=arm
+          os: linux
+          compiler: clang
 
 # The following gives us Ubuntu 14.04 LTS instead of 12.04 LTS
 sudo: required
@@ -32,6 +51,11 @@ install:
         sudo apt-get update -q &&
         sudo apt-get install g++-6 -y &&
         export CXX=g++-6 CC=gcc-6;
+      fi
+    - if test "$TRAVIS_OS_NAME" = "linux" -a "$GCC_VERSION" = "arm"; then
+        sudo apt-get update -q &&
+        sudo apt-get install -y g++-arm-linux-gnueabi &&
+        export CXX=g++-arm-linux-gnueabi CC=gcc-arm-linux-gnueabi CMAKE_TOOLCHAIN_FILE=cmake/toolchain-arm-linux-gnueabi-gcc.cmake;
       fi
     - if test "$TRAVIS_OS_NAME" = "linux" -a "$CXX" = "clang++"; then
         sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y &&
