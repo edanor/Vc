@@ -41,6 +41,11 @@ install:
         sudo apt-get install g++-6 -y &&
         export CXX=g++-6 CC=gcc-6;
       fi
+    - if test "$TRAVIS_OS_NAME" = "linux" -a "$GCC_VERSION" = "arm"; then
+        sudo apt-get update -q &&
+        sudo apt-get install -y g++-arm-linux-gnueabi &&
+        export CXX=g++-arm-linux-gnueabi CC=gcc-arm-linux-gnueabi CMAKE_TOOLCHAIN_FILE=cmake/toolchain-arm-linux-gnueabi-gcc.cmake;
+      fi
     - if test "$TRAVIS_OS_NAME" = "linux" -a "$CXX" = "clang++"; then
         sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y &&
         sudo apt-get update -q &&
