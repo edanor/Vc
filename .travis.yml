@@ -17,13 +17,22 @@ compiler:
     - clang
 
 matrix:
+    allow_failures:
+        - env: GCC_VERSION=arm
+        - env: GCC_VERSION=aarch64
+
     exclude:
+        - env: GCC_VERSION=aarch64
+          os: osx
         - env: GCC_VERSION=arm
           os: osx
         - env: GCC_VERSION=5
           os: osx
           compiler: clang
         - env: GCC_VERSION=5
+          os: linux
+          compiler: clang
+        - env: GCC_VERSION=aarch64
           os: linux
           compiler: clang
         - env: GCC_VERSION=arm
