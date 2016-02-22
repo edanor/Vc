@@ -6,6 +6,7 @@ cache:
         - $HOME/.cache/sde
 
 env:
+<<<<<<< HEAD
     - subset=sse
     - subset=avx
     - subset=avx512
@@ -43,8 +44,13 @@ install:
       fi
     - if test "$TRAVIS_OS_NAME" = "linux" -a "$GCC_VERSION" = "arm"; then
         sudo apt-get update -q &&
-        sudo apt-get install -y g++-arm-linux-gnueabi &&
-        export CXX=g++-arm-linux-gnueabi CC=gcc-arm-linux-gnueabi CMAKE_TOOLCHAIN_FILE=cmake/toolchain-arm-linux-gnueabi-gcc.cmake;
+        sudo apt-get install -y g++-4.8-arm-linux-gnueabihf &&
+        export CXX=arm-linux-gnueabihf-g++-4.8 CC=arm-linux-gnueabihf-gcc-4.8 CMAKE_TOOLCHAIN_FILE=cmake/toolchain-arm-linux.cmake;
+      fi
+    - if test "$TRAVIS_OS_NAME" = "linux" -a "$GCC_VERSION" = "aarch64"; then
+        sudo apt-get update -q &&
+        sudo apt-get install -y g++-4.8-aarch64-linux-gnu &&
+        export CXX=aarch64-linux-gnu-g++-4.8 CC=aarch64-linux-gnu-gcc-4.8 CMAKE_TOOLCHAIN_FILE=cmake/toolchain-arm-linux.cmake;
       fi
     - if test "$TRAVIS_OS_NAME" = "linux" -a "$CXX" = "clang++"; then
         sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y &&
