@@ -308,7 +308,7 @@ macro(vc_add_general_test _name)
 endmacro()
 
 if(_last_target_arch STREQUAL "auto" AND NOT Vc_AVX_INTRINSICS_BROKEN)
-   vc_add_general_test(supportfunctions)
+#   vc_add_general_test(supportfunctions)
 endif()
 vc_add_general_test(alignmentinheritance)
 vc_add_general_test(alignedbase)
