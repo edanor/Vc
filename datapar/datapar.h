@@ -77,7 +77,7 @@ struct allow_conversion_ctor3<T0, datapar_abi::fixed_size<datapar_size_v<T1, A1>
                               false  // disallow 3rd conversion ctor if the Abi types are
                                      // equal (disambiguate copy ctor and the two
                                      // preceding conversion ctors)
-                              > : public std::is_convertible<T1, T0> {
+                              > : public is_convertible_without_narrowing<T1, T0> {
 };
 
 //}}}1
@@ -107,19 +107,25 @@ public:
     datapar &operator=(datapar &&) = default;
 
     // implicit broadcast constructor
-    datapar(value_type x) : d{impl::broadcast(x, size_tag)} {}
+    template <class U>
+    datapar(U x,
+            enable_if<is_convertible_without_narrowing<U, value_type>::value> = nullarg)
+        : d{impl::broadcast(value_type{x}, size_tag)}
+    {
+    }
 
     // implicit type conversion constructor
     // 1st conversion ctor: convert from fixed_size<size()>
     template <class U>
     datapar(const datapar<U, datapar_abi::fixed_size<size()>> &x,
-            std::enable_if_t<std::is_convertible<U, value_type>::value, void *> = nullptr)
+            std::enable_if_t<is_convertible_without_narrowing<U, value_type>::value, void *> = nullptr)
         : datapar{static_cast<const std::array<U, size()> &>(x).data(),
                   flags::vector_aligned}
     {
     }
 
     // 2nd conversion ctor: convert equal Abi, integers that only differ in signedness
+    /*
     template <class U>
     datapar(datapar<U, Abi> x,
             std::enable_if_t<detail::allow_conversion_ctor2<value_type, U, Abi>::value, void *> =
@@ -127,6 +133,7 @@ public:
         : d{static_cast<cast_type>(x)}
     {
     }
+    */
 
     // 3rd conversion ctor: convert from non-fixed_size to fixed_size if U is convertible to
     // value_type
@@ -173,6 +180,18 @@ public:
     // scalar access
     reference operator[](size_type i) { return {*this, int(i)}; }
     value_type operator[](size_type i) const { return impl::get(*this, int(i)); }
+
+    // binary operators
+    Vc_INTRINSIC datapar operator+ (datapar y) { return impl::plus(*this, y); }
+    Vc_INTRINSIC datapar operator- (datapar y) { return impl::minus(*this, y); }
+    Vc_INTRINSIC datapar operator* (datapar y) { return impl::multiplies(*this, y); }
+    Vc_INTRINSIC datapar operator/ (datapar y) { return impl::divides(*this, y); }
+    Vc_INTRINSIC datapar operator% (datapar y) { return impl::modulus(*this, y); }
+    Vc_INTRINSIC datapar operator& (datapar y) { return impl::bit_and(*this, y); }
+    Vc_INTRINSIC datapar operator| (datapar y) { return impl::bit_or(*this, y); }
+    Vc_INTRINSIC datapar operator^ (datapar y) { return impl::bit_xor(*this, y); }
+    Vc_INTRINSIC datapar operator<<(datapar y) { return impl::bit_shift_left(*this, y); }
+    Vc_INTRINSIC datapar operator>>(datapar y) { return impl::bit_shift_right(*this, y); }
 
     // increment and decrement:
     //datapar &operator++();
