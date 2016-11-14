@@ -240,29 +240,6 @@ template <class T, class Abi, class U> datapar<T, Abi> &operator<<=(datapar<T, A
 template <class T, class Abi, class U> datapar<T, Abi> &operator>>=(datapar<T, Abi> &, const U &);
 
 // binary operators [datapar.binary]
-template <class T> struct value_type_of {
-    using type = void;
-};
-template <class T, class A> struct value_type_of<datapar<T, A>> {
-    using type = T;
-};
-template <class L, class R>
-using return_type = typename std::enable_if<
-    (!(std::is_same<typename R::abi_type, datapar_abi::fixed_size<R::size()>>::value &&
-       std::is_same<typename value_type_of<L>::type, typename R::value_type>::value) &&
-     std::is_convertible<L, R>::value && !std::is_same<L, R>::value),
-    R>::type;
-
-template <class L, class T, class Abi, class R = datapar<T, Abi>> Vc_INTRINSIC return_type<L, R> operator+ (L x, datapar<T, Abi> y) { return detail::get_impl_t<R>::plus(R(x), y); }
-template <class L, class T, class Abi, class R = datapar<T, Abi>> Vc_INTRINSIC return_type<L, R> operator- (L x, datapar<T, Abi> y) { return detail::get_impl_t<R>::minus(R(x), y); }
-template <class L, class T, class Abi, class R = datapar<T, Abi>> Vc_INTRINSIC return_type<L, R> operator* (L x, datapar<T, Abi> y) { return detail::get_impl_t<R>::multiplies(R(x), y); }
-template <class L, class T, class Abi, class R = datapar<T, Abi>> Vc_INTRINSIC return_type<L, R> operator/ (L x, datapar<T, Abi> y) { return detail::get_impl_t<R>::divides(R(x), y); }
-template <class L, class T, class Abi, class R = datapar<T, Abi>> Vc_INTRINSIC return_type<L, R> operator% (L x, datapar<T, Abi> y) { return detail::get_impl_t<R>::modulus(R(x), y); }
-template <class L, class T, class Abi, class R = datapar<T, Abi>> Vc_INTRINSIC return_type<L, R> operator& (L x, datapar<T, Abi> y) { return detail::get_impl_t<R>::bit_and(R(x), y); }
-template <class L, class T, class Abi, class R = datapar<T, Abi>> Vc_INTRINSIC return_type<L, R> operator| (L x, datapar<T, Abi> y) { return detail::get_impl_t<R>::bit_or(R(x), y); }
-template <class L, class T, class Abi, class R = datapar<T, Abi>> Vc_INTRINSIC return_type<L, R> operator^ (L x, datapar<T, Abi> y) { return detail::get_impl_t<R>::bit_xor(R(x), y); }
-template <class L, class T, class Abi, class R = datapar<T, Abi>> Vc_INTRINSIC return_type<L, R> operator<<(L x, datapar<T, Abi> y) { return detail::get_impl_t<R>::bit_shift_left(R(x), y); }
-template <class L, class T, class Abi, class R = datapar<T, Abi>> Vc_INTRINSIC return_type<L, R> operator>>(L x, datapar<T, Abi> y) { return detail::get_impl_t<R>::bit_shift_right(R(x), y); }
 
 template <class T, int N, class U, class R = fixed_size_datapar<U, N>>
 Vc_INTRINSIC enable_if<(std::is_arithmetic<U>::value &&

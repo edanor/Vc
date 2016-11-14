@@ -124,6 +124,20 @@ public:
     {
     }
 
+    /*
+    // convert fixed_size to fixed_size if their value_types are convertible without narrowing
+    template <class U>
+    datapar(
+        const datapar<U, datapar_abi::fixed_size<size()>> &x,
+        std::enable_if_t<std::is_same<abi_type, datapar_abi::fixed_size<size()>>::value &&
+                             is_convertible_without_narrowing<U, value_type>::value,
+                         void *> = nullptr)
+        : datapar{static_cast<const std::array<U, size()> &>(x).data(),
+                  flags::vector_aligned}
+    {
+    }
+    */
+
     // 2nd conversion ctor: convert equal Abi, integers that only differ in signedness
     /*
     template <class U>
@@ -137,6 +151,7 @@ public:
 
     // 3rd conversion ctor: convert from non-fixed_size to fixed_size if U is convertible to
     // value_type
+    /*
     template <class U, class Abi2>
     datapar(
         datapar<U, Abi2> x,
@@ -145,6 +160,7 @@ public:
     {
         x.copy_to(d.data(), flags::overaligned<alignof(datapar)>);
     }
+    */
 
     // load constructor
     template <class U, class Flags>
@@ -182,16 +198,16 @@ public:
     value_type operator[](size_type i) const { return impl::get(*this, int(i)); }
 
     // binary operators
-    Vc_INTRINSIC datapar operator+ (datapar y) { return impl::plus(*this, y); }
-    Vc_INTRINSIC datapar operator- (datapar y) { return impl::minus(*this, y); }
-    Vc_INTRINSIC datapar operator* (datapar y) { return impl::multiplies(*this, y); }
-    Vc_INTRINSIC datapar operator/ (datapar y) { return impl::divides(*this, y); }
-    Vc_INTRINSIC datapar operator% (datapar y) { return impl::modulus(*this, y); }
-    Vc_INTRINSIC datapar operator& (datapar y) { return impl::bit_and(*this, y); }
-    Vc_INTRINSIC datapar operator| (datapar y) { return impl::bit_or(*this, y); }
-    Vc_INTRINSIC datapar operator^ (datapar y) { return impl::bit_xor(*this, y); }
-    Vc_INTRINSIC datapar operator<<(datapar y) { return impl::bit_shift_left(*this, y); }
-    Vc_INTRINSIC datapar operator>>(datapar y) { return impl::bit_shift_right(*this, y); }
+    friend Vc_INTRINSIC datapar operator+ (datapar x, datapar y) { return impl::plus(x, y); }
+    friend Vc_INTRINSIC datapar operator- (datapar x, datapar y) { return impl::minus(x, y); }
+    friend Vc_INTRINSIC datapar operator* (datapar x, datapar y) { return impl::multiplies(x, y); }
+    friend Vc_INTRINSIC datapar operator/ (datapar x, datapar y) { return impl::divides(x, y); }
+    friend Vc_INTRINSIC datapar operator% (datapar x, datapar y) { return impl::modulus(x, y); }
+    friend Vc_INTRINSIC datapar operator& (datapar x, datapar y) { return impl::bit_and(x, y); }
+    friend Vc_INTRINSIC datapar operator| (datapar x, datapar y) { return impl::bit_or(x, y); }
+    friend Vc_INTRINSIC datapar operator^ (datapar x, datapar y) { return impl::bit_xor(x, y); }
+    friend Vc_INTRINSIC datapar operator<<(datapar x, datapar y) { return impl::bit_shift_left(x, y); }
+    friend Vc_INTRINSIC datapar operator>>(datapar x, datapar y) { return impl::bit_shift_right(x, y); }
 
     // increment and decrement:
     //datapar &operator++();
