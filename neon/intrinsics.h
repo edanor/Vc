@@ -52,6 +52,3 @@ template <> struct VectorTraits<double> { typedef double Type; };
 #endif  // VC_NEON_INTRINSICS_H_
 
 // vim: foldmethod=marker
-//
-//
-//

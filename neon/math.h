@@ -62,6 +62,8 @@ template <typename T> Vc_ALWAYS_INLINE Vc_PURE NEON::Mask<T> isfinite(const NEON
 template <typename T> Vc_ALWAYS_INLINE Vc_PURE NEON::Mask<T> isinf(const NEON::Vector<T> &x);
 template <typename T> Vc_ALWAYS_INLINE Vc_PURE NEON::Mask<T> isnan(const NEON::Vector<T> &x);
 
+}  // namespace Vc
+
 #endif  // VC_NEON_MATH_H_
 
 // vim: foldmethod=marker
