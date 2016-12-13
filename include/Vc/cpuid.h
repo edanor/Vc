@@ -69,7 +69,7 @@ class CpuId
          * executing before main.
          */
         static void init();
-
+ 
         //! Return the cache line size in bits.
         static inline ushort cacheLineSize() { return static_cast<ushort>(s_cacheLineSize) * 8u; }
         //! Return the ProcessorType.
@@ -85,7 +85,7 @@ class CpuId
         //! Return whether the CPU vendor is Intel.
         static inline bool isIntel () { return s_ecx0 == 0x6C65746E; }
         //! Return whether the CPU supports SSE3.
-        static inline bool hasSse3 () { return s_processorFeaturesC & (1 << 0); }
+	static inline bool hasSse3 () { return s_processorFeaturesC & (1 << 0); }
         //! Return whether the CPU supports the PCLMULQDQ instruction.
         static inline bool hasPclmulqdq() { return (s_processorFeaturesC & (1 << 1)) != 0; }
         //! Return whether the CPU supports the MONITOR/MWAIT instructions.
