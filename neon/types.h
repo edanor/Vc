@@ -1,5 +1,4 @@
-/*  This file 
- *  is part of the Vc library. {{{
+/*  This file is part of the Vc library. {{{
 Copyright © 2017 Matthias Kretz <kretz@kde.org>
 All rights reserved.
 

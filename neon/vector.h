@@ -132,7 +132,6 @@ template <typename T> class Vector<T, VectorAbi::Neon>
 
         Vc_INTRINSIC_L void setQnan() Vc_INTRINSIC_R;
         Vc_INTRINSIC_L void setQnan(const Mask &k) Vc_INTRINSIC_R;
-
 #include "../common/gatherinterface.h"
 #include "../common/scatterinterface.h"
 
